@@ -25,6 +25,15 @@
     </header>
     <main>
         <div class="container">
+            {% with msgs = get_flashed_messages() %}
+                {% if msgs %}
+                    {%- for msg in msgs %}
+                        <div class="alert alert-info">
+                        {{ msg }}
+                        </div>
+                    {% endfor -%}
+                {% endif %}
+            {% endwith %}
             {% block main %}{% endblock %}
         </div>
     </main>

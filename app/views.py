@@ -4,10 +4,13 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
+##this is version 1.0
 
 from app import app
-from flask import render_template, request, redirect, url_for
+import smtplib
+from flask import render_template, request, redirect, url_for, flash
 
+app.secret_key = 'donttellnoone'
 
 ###
 # Routing for your application.
@@ -18,6 +21,40 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
+
+@app.route('/contact/')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/sendmail', methods=['POST'])
+def send_email():
+    ##send_mail(request.form['from_name'], request.form['from_email'], request.form['Subject'], request.form['msg'])
+    flash('Your email was successfully sent!')
+    return redirect(url_for('home'))
+    
+def send_mail(from_name, from_email, subject, msg):
+    """sends message"""
+    to_addr = 'blackbeard@gmail.com'
+    to_name = 'admin'
+    
+    message = """ From {} <{}>
+    
+    To: {} <{}>
+    
+    Subject: {}
+    {}
+    """
+    
+    message_to_send = message.format(from_name, from_email, to_name,to_addr,subject,msg)
+    # Credentials (if needed)
+    username = 'blackbeard@gmail.com'
+    password = 'yohohoandabottleofrum'
+    # The actual mail send
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(from_email, to_addr, message_to_send)
+    server.quit()
 
 @app.route('/about/')
 def about():

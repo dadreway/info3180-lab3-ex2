@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block main %}
+
+ <div class="contain">
+            <h1>Contact Form</h1>
+        <form action="/sendmail" method="POST" enctype="multipart/form-data">
+        <input name="from_name" value="submit" type="hidden"> Name:<br>
+        <input name="from_email" size="50" type="text"><br>Email:<br>
+        <input name="Subject" size="50" type="text"><br> Subject:<br>
+        <input name="msg" size="50" type="text"><br> Message:<br>
+        <textarea name="message" rows="10" cols="50">
+        </textarea><br>
+        <input class="button" value="Send" type="submit">
+        </form>
+        </div>
+
+{% endblock %}
